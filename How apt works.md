@@ -25,6 +25,7 @@ This command will act the same as the classic upgrade except on a point : it upg
 - It install requiered packages
 - It removes the already installed packages to make the clear upgrade
 
+It's a nice command on new system you need to upgrade.
 That's cool to install requiered dependancies but what about the conflicts ? Some packages can use different version off a dependency. We can introduce new issues cause of it. It's probably time to full-upgrade.
 
 ### Apt full-upgrade
@@ -47,3 +48,10 @@ It complitely removes the cache in /var/cache/apt/archives directory (except loc
 Autoclean will clean /var/cache/apt/archives directory, like clean you will say, with a difference : only packages that are not possible to download will be removed. 
 Like we saw on update, package can have different versions. So if a version is to old, you will probably will download it any more (you can on special case but it's a really specific).
 So, you will lose nothing to delete it ;)
+
+### Apt autoremove
+It remove orphans package, nice to do because orphans are no longer needed for the system. Becarefull, it doesn't purge them ! You can use --purge to do this
+
+### Cache conclusion
+Even if you want to optimise you delete/re-install package, you win space without any issue this command :
+sudo apt autoremove --purge && sudo apt clean
