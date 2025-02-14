@@ -1,0 +1,9 @@
+When you start a ssh connection to a server for the first time with password, your system will warn you that "The authenticity of host '{IP_ADDR} ('{IP_ADDR})' can't be established.".
+It also shows you a fingerprint avec the ssh server. This fingerprint is present in the ssh_host_{encryption_system}.pub file on your server. It can prevent for someone who still the IP address of your server and want to still he's identity.
+In fact, it doesn't prevent of all attack. If I'm able to still the keys on your server, I can have the same fingerprint !
+If you want to try, create two VM's or containers. Create one with openssh-server install and clone/duplicate it. Please, give them different IP for the test.
+On the connexion on the first server will say that the authenticity of host can't be prooved, give you the fingerprint and will say that "This key is not known by any other names.". Type yes and connect to your server.
+Now if you try to connect on the second server, it will also say that the authenticity of host can't be prooved, give you the fingerprint but now, you got another information. He says
+"This host key is known by the following other names/addresses:" and give you where he found the information. Most of the time it's in path/to/.ssh/known_hosts.
+So if someone try to use your keys on a different IP, the system will notice it. Note that the known_host file store an IP-fingerprint association. So if your server change it's IP for some valid reasons, this warning isn't a problem at all.
+In reality, if someon still your server keys and also use the server IP, you can't notice it (or your system is not able to).
