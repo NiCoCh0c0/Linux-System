@@ -1,0 +1,13 @@
+# Snapshot vs Backup
+## Backup
+A backup is a copy of the file system, in case of VM/containter it can also include their configuration (disk, RAM, ...). Their is different manner to copy the file system.
+As an exemple, on Proxmox, you can store them as chunks or can be copy file per file. Backup a system is most of the time a long process, it mainly depend on how much data is stored.
+Also, backup are pretty heavy so it's advice to store archives of them. Note that some system allow incremental backup to shorten the process. It will only store the new data since the last backup
+
+Store backups on a different server than the one which the system is running is a good practice (in production environment is can be mandatory). This is because backups are here to recover a server if this first fall down.
+So, if you store your backup on the same server, it will be impossible to recover your machine if the file system is corrupted.
+An other good pratice is to schedule backup to be sure to have a "recent" version when your system was running correctly. Please note that backup do not necessarilly recover from cyberattacks.
+If your system was corrupted years ago and restore with a backup from 3 months ago, the breach or malware will be present in your recoverded system.
+
+It exist many manner to backup a system, the more secure is to shutdown the system and copy files. Other version allows you to do a backup without stopping the machine, concistency is not 100% guarantied (you can write in a file while you are backup save this same file).
+Generally, the soft used to create backup has some tool to avoid this case as much as possible. 
