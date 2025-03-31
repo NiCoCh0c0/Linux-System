@@ -1,0 +1,47 @@
+# Disk setup to install LFS
+## Setup disk
+### Partion table and disk partions
+In order install an LFS, we need to prepare our disk. First, we setup the disk on GPT label.
+If your disk already have a partition table, make sure to erase it. First unmount all partition (check with lsblk then umount all). Then you can use this command to erase the partition table.
+```bash
+  sudo wipefs -a /dev/<disk>
+```
+Then, we will create partitions on the disk with the following requirement :
+  - boot_efi : 256M - EFI system
+  - origin : <A>GB - Linux filesystem
+  - swap : 2G - Linux swap
+
+We can use cfdisk utils to make it, don't forget to use GPT for the partition table
+```bash
+  sudo cfdisk /dev/<disk>
+```
+Then we can rename our partition using the c option of gdisk
+```bash
+sudo gdisk /dev/<disk>
+```
+### Use LVM for origin
+In order to extend the system later with other disks, we will use LVM. First we create the physical volume
+```bash
+sudo pvcreate /dev/<partition>
+```
+Then we create the logical volume name origin add associate it with our physical volume
+```bash
+sudo vgcreate origin /dev/<pvname>
+```
+And finish to create our logical volume
+```bash
+sudo lvcreate -L <A>GB -n slash origin
+```
+Now our "/" partiton will be accessible on /dev/origin/slash.
+  
+### Add filesystem to disk partition
+We highly recommand using ext2 for boot_efi. For origin, ext4 will be used but other can be consider. Here we will use it. For swap, use the swap partition system.
+```bash
+sudo mkfs -t ext2 /dev/<partition>
+```
+```bash
+sudo mkfs -t ext4 /dev/origin/slash
+```
+```bash
+sudo mkswap /dev/<partition>
+```
