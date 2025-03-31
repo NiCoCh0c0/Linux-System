@@ -45,3 +45,14 @@ sudo mkfs -t ext4 /dev/origin/slash
 ```bash
 sudo mkswap /dev/<partition>
 ```
+## Mount disk
+Now let's mount our partition to operate modification
+```bash
+sudo mkdir /mnt/lfs/
+mount /dev/origin/slash /mnt/lfs/
+sudo mkdir /mnt/lfs/boot
+sudo mount /dev/<boot_partition> /mnt/lfs/boot
+sudo mkdir /mnt/lfs/swap
+swapon /dev/<swap_partition>
+```
+If you will restart your computer, don't forget to remount all or just edit /etc/fstab
